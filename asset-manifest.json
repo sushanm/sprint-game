@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sprint-game/static/css/main.52d528ec.css",
-    "main.js": "/sprint-game/static/js/main.00f12ed8.js",
+    "main.js": "/sprint-game/static/js/main.4daaed69.js",
     "static/js/787.eca3d6a7.chunk.js": "/sprint-game/static/js/787.eca3d6a7.chunk.js",
     "index.html": "/sprint-game/index.html",
     "main.52d528ec.css.map": "/sprint-game/static/css/main.52d528ec.css.map",
-    "main.00f12ed8.js.map": "/sprint-game/static/js/main.00f12ed8.js.map",
+    "main.4daaed69.js.map": "/sprint-game/static/js/main.4daaed69.js.map",
     "787.eca3d6a7.chunk.js.map": "/sprint-game/static/js/787.eca3d6a7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.52d528ec.css",
-    "static/js/main.00f12ed8.js"
+    "static/js/main.4daaed69.js"
   ]
 }
