@@ -32,7 +32,41 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.logo {
+  width: 60px;
+}
+
+.logo-text {
+  color: #e45883;
+  font-size: 25px;
+  padding-top: 5px;
+  position: relative;
+  top: 5px;
+  left: 8px;
+}
+
+.user-name{
+  color: #e45883;
+  font-weight: bold;
+}
+
+.modal-header .btn-close {
+  display: none;
+}
+
+.login-display-row{
+  width: 400px;
+}
+
+.col-text-middle{
+  position: relative;
+  top: 5px;
+  vertical-align: -webkit-baseline-middle !important;
+    vertical-align: middle !important;
 }
