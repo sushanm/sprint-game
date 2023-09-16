@@ -1,5 +1,9 @@
+import PlayGames from "../components/PlayGames";
+
 const Games = () => {
-    return <h1>Blog Articles</h1>;
+    return <>
+      <PlayGames />
+    </>;
   };
   
   export default Games;

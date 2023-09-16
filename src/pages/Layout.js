@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import Login from "../components/User/Login";
+import Login from "../components/Login";
 
 const Layout = () => {
     return (
@@ -16,12 +16,7 @@ const Layout = () => {
                     </Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
-                    <div className="row login-display-row">
-                   <Login />
-                    </div>
-                        {/* <Navbar.Text>
-                           
-                        </Navbar.Text> */}
+                        <Login />
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

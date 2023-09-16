@@ -54,6 +54,7 @@
 .user-name{
   color: #e45883;
   font-weight: bold;
+  padding-right: 6px;
 }
 
 .modal-header .btn-close {
@@ -69,4 +70,84 @@
   top: 5px;
   vertical-align: -webkit-baseline-middle !important;
     vertical-align: middle !important;
+    display: inline-flex;
+}
+
+.col-shadow{
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  filter: drop-shadow(0 7.9746px 23.9238px rgba(26,41,53,.16));
+  position: relative;
+  top:120px;
+  z-index: 1;
+}
+
+.banner-image{
+  width: 100%;
+}
+
+.nav-item .dropdown a{
+  padding-left: 6px !important;
+}
+.dropdown-toggle{
+  font-size: 20px;
+  position: relative;
+  top: -2px;
+}
+
+.create-game-container{
+  position: relative;
+  top:45%
+}
+.create-game-title-desc{
+  padding-top: 20px;
+}
+.create-game-title-btn{
+  margin-top: 20px;
+  width: 60%;
+  align-items: center;
+}
+
+.modal-backdrop.show {
+  opacity: 0.8 !important;
+}
+
+.widthfull{
+  width: 100%;
+}
+
+.border-l{
+  border-left: 1px solid #18bbe5;
+}
+
+.add-new-issue{
+  height: 70px;
+}
+
+.issue-row{
+  min-height: 50px;
+  background-color: #ebf4ff;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 7px;
+}
+
+.fib-sel-div{
+  text-align: center;
+ 
+}
+
+.fib-select-span{
+  border: 2px solid #3993ff;
+  margin: 0px !important;
+  padding: 10px !important;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.fib-select-span-selected{
+  position: relative;
+  bottom: 15px;
+  color: white;
+  background-color: #3993ff;
 }

@@ -7,7 +7,8 @@ import Games from "./pages/Game";
 
 function App() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    //basename={process.env.PUBLIC_URL}
+    <BrowserRouter >
       <Routes>
         <Route path="/" exact element={<Layout />}>
           <Route index element={<Home />} />

@@ -1,7 +1,19 @@
+import Container from 'react-bootstrap/Container';
+import CreateGame from '../components/CreateGame';
 const Home = () => {
     return <>
-        <div className="row"></div>
+        <Container>
+            <div className="row">
+                <div className="col-5">
+                <CreateGame />
+                </div>
+                <div className="col-7 col-shadow ">
+                    <img src="/sprint-game/assets/banner.png" alt="banner" className="banner-image" />
+                </div>
+            </div>
+        </Container>
+
     </>;
-  };
-  
-  export default Home;
+};
+
+export default Home;
