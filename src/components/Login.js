@@ -11,7 +11,7 @@ function Login() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+const[disable, SetDisble]=useState(false);
 
     useEffect(() => {
         let loginName = localStorage.getItem('sprintplanningpockernewLoginName')
@@ -27,6 +27,7 @@ function Login() {
     const history = useNavigate();
     const loginHanler = async () => {
         if (userName) {
+            SetDisble(true);
             await loginService.createNewUser({userName}).then((res)=>{
                 console.log(res.id)
                 localStorage.setItem('sprintplanningpockernewLoginID', res.id);
@@ -72,7 +73,7 @@ function Login() {
                                     <Form.Control required type="text"  placeholder="Public Key" onChange={(e) => SetPublicKey(e.target.value)} />
                                 </div> */}
                                 <div className="col-2">
-                                    <Button variant="primary" onClick={loginHanler} >
+                                    <Button variant="primary" onClick={loginHanler} disabled={disable}>
                                         Login
                                     </Button>
                                 </div>

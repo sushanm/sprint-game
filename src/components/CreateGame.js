@@ -12,7 +12,10 @@ function CreateGame() {
     const handleShow = () => setShow(true);
     const [gameName, SetGameName] = useState("");
     const navigate = useNavigate();
+    const[disable, SetDisble]=useState(false);
+
     const createNewGame = async () => {
+        SetDisble(true)
         const id = Math.random().toString(36).slice(2);
       
         let newSprint = {
@@ -47,7 +50,7 @@ function CreateGame() {
                                 <Form.Control required type="text" placeholder="Game Name" value={gameName} onChange={e => SetGameName(e.target.value)} />
                             </div>
                             <div className="col-3">
-                                <Button variant="primary" className='widthfull' onClick={createNewGame} >
+                                <Button variant="primary" className='widthfull' onClick={createNewGame} disabled={disable}>
                                     Create Game
                                 </Button>
                             </div>

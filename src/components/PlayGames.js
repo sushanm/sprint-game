@@ -194,8 +194,10 @@ function PlayGames() {
   return (
     <Container>
       <div className="row">
-        <div className="col">
-          {sprintDetail.name}
+        <div className="col sprint-name">
+        <h5>
+        {sprintDetail.name}
+        </h5>
         </div>
       </div>
       <div className="row">
@@ -236,17 +238,8 @@ function PlayGames() {
                   (loggedInUserId === sprintDetail.createdId) && (
                     (issueForVoting.votes && issueForVoting.votes.length === sprintDetail.users.length) &&
                     <>
-                      <div className="col">
-                        {
-                          (sprintDetail.issues &&
-                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)] &&
-                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)].avgVote)
-                          && <>
-                            <Button variant="primary" onClick={() => nextIssue()}>
-                              Next issue
-                            </Button>
-                          </>
-                        }
+                      <div className="col-6">
+
                         {
                           (sprintDetail.issues &&
                             sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)] &&
@@ -254,6 +247,18 @@ function PlayGames() {
                           && <>
                             <Button variant="secondary" onClick={() => calculateAvg()}>
                               Show Avg
+                            </Button>
+                          </>
+                        }
+                      </div>
+                      <div className="col-6">
+                      {
+                          (sprintDetail.issues &&
+                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)] &&
+                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)].avgVote)
+                          && <>
+                            <Button variant="primary" onClick={() => nextIssue()}>
+                              Next issue
                             </Button>
                           </>
                         }
@@ -418,14 +423,9 @@ function PlayGames() {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-6">
                   <Button variant="primary" onClick={addNewIssueToList}>
                     Add New
-                  </Button>
-                </div>
-                <div className="col">
-                  <Button variant="secondary" onClick={() => SetNewIssue("")}>
-                    Cancel
                   </Button>
                 </div>
               </div>
