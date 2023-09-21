@@ -22,6 +22,8 @@ function PlayGames() {
   const [selectedFib, SetSelectedFib] = useState(-1)
   const [issueForVoting, SetIssueForVoting] = useState({});
 
+  const [showAvg, SetShowAvg] = useState(true);
+
 
   useEffect(() => {
     if (!isEmptyObj(gameKey)) {
@@ -71,19 +73,31 @@ function PlayGames() {
       tempData.issues.push({
         title: addNewIssue,
         status: 'added',
-        id: Math.random().toString(36).slice(2)
+        id: Math.random().toString(36).slice(2),
+        votes: []
       })
     } else {
       tempData.issues = [{
         title: addNewIssue,
         status: 'added',
-        id: Math.random().toString(36).slice(2)
+        id: Math.random().toString(36).slice(2),
+        votes: []
       }]
+    }
+
+    for (let i = 0; i < tempData.issues.length; i++) {
+      if (tempData.issues[i].status === 'added' || tempData.issues[i].status === 'wip') {
+        tempData.issueForVoting = tempData.issues[i].id;
+        SetIssueForVoting(tempData.issues[i]);
+        SetSelectedFib(-1)
+        break;
+      }
     }
 
     updateSprint(tempData);
     SetNewIssue("");
   }
+
   useEffect(() => {
     try {
       const unsub = onSnapshot(doc(db, "sprints", sprintId), (doc) => {
@@ -94,13 +108,12 @@ function PlayGames() {
           if (tempData.users) {
             SetListOfUsers(tempData.users)
           }
-          if (tempData.issues) {
-            tempData.issues.forEach(issue => {
-              if (issue.status === 'added') {
-                SetIssueForVoting(issue);
-                return;
-              }
-            });
+          if (tempData.issueForVoting) {
+            let index = tempData.issues.findIndex(item => item.id === tempData.issueForVoting)
+            SetIssueForVoting(tempData.issues[index])
+            if (tempData.issues[index].avgVote) {
+              SetShowAvg(tempData.issues[index].avgVote)
+            }
           }
         }
       });
@@ -116,29 +129,56 @@ function PlayGames() {
     return true;
   }
 
+
   const castVote = (fib) => {
     SetSelectedFib(fib)
     let tempData = sprintDetail;
-    console.log(tempData)
     const issueIndex = tempData.issues.findIndex(item => item.id === issueForVoting.id);
 
     if (tempData.issues[issueIndex].votes) {
-      tempData.issues.votes.push({
-        vote: fib,
-        by: loggedInUserId
-      })
+
+      const userVotedIndex = tempData.issues[issueIndex].votes.findIndex(item => item.by === loggedInUserId)
+      if (userVotedIndex < 0) {
+        tempData.issues[issueIndex].votes.push({
+          vote: fib,
+          by: loggedInUserId
+        })
+      }
     } else {
       tempData.issues[issueIndex].votes = [{
         vote: fib,
         by: loggedInUserId
       }]
     }
-    if (tempData.issues[issueIndex].votes.length === tempData.users.length) {
-      tempData.issues[issueIndex].status = "done"
-    }
-    if (tempData.issues[issueIndex].votes.length > 0 && tempData.issues[issueIndex].votes.length < tempData.users.length) {
+
+    if (tempData.issues[issueIndex].votes.length > 0 && tempData.issues[issueIndex].votes.length <= tempData.users.length) {
       tempData.issues[issueIndex].status = "wip"
     }
+
+    updateSprint(tempData);
+  }
+
+
+
+  const nextIssue = () => {
+    let tempData = sprintDetail;
+    for (let i = 0; i < tempData.issues.length; i++) {
+      if (tempData.issues[i].status === 'added' || tempData.issues[i].status === 'wip') {
+        tempData.issueForVoting = tempData.issues[i].id;
+        break;
+      }
+    }
+    updateSprint(tempData);
+    SetShowAvg(true)
+  }
+
+  const calculateAvg = () => {
+    let tempData = sprintDetail;
+    const issueIndex = tempData.issues.findIndex(item => item.id === issueForVoting.id);
+
+    SetShowAvg(false)
+    tempData.issues[issueIndex].status = "done"
+
     let totalVote = 0
     if (tempData.issues[issueIndex].status === "done") {
       tempData.issues[issueIndex].votes.forEach(item => {
@@ -147,6 +187,7 @@ function PlayGames() {
 
       tempData.issues[issueIndex].avgVote = Math.round((totalVote / tempData.users.length) * 10) / 10
     }
+
     updateSprint(tempData);
   }
 
@@ -160,30 +201,112 @@ function PlayGames() {
       <div className="row">
         <div className="col-8">
           <div className="row">
-            <div className="col">
+            <div className="col-8">
               <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Current issue for Voting</Form.Label>
-                <p>
-                  <h3>
-                    {issueForVoting.title}
-                  </h3>
-                </p>
+                <h4>
+                  {issueForVoting.title}
+                </h4>
+
               </Form.Group>
             </div>
+            <div className="col-4">
+
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Label>Average</Form.Label>
+
+                <h5>
+                  {
+                    (sprintDetail.issues &&
+                      sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)]) &&
+                    sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)].avgVote
+                  }
+                </h5>
+                {
+                  (sprintDetail.issues &&
+                    sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)] &&
+                    !sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)].avgVote)
+                  && <>
+                    <img src="/sprint-game/assets/loading.gif" alt="banner" className="banner-image1" />
+                  </>
+                }
+              </Form.Group>
+              <div className="row">
+                {
+                  (loggedInUserId === sprintDetail.createdId) && (
+                    (issueForVoting.votes && issueForVoting.votes.length === sprintDetail.users.length) &&
+                    <>
+                      <div className="col">
+                        {
+                          (sprintDetail.issues &&
+                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)] &&
+                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)].avgVote)
+                          && <>
+                            <Button variant="primary" onClick={() => nextIssue()}>
+                              Next issue
+                            </Button>
+                          </>
+                        }
+                        {
+                          (sprintDetail.issues &&
+                            sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)] &&
+                            !sprintDetail.issues[sprintDetail.issues.findIndex(item => item.id === sprintDetail.issueForVoting)].avgVote)
+                          && <>
+                            <Button variant="secondary" onClick={() => calculateAvg()}>
+                              Show Avg
+                            </Button>
+                          </>
+                        }
+                      </div>
+                      <div className="col">
+
+                      </div>
+                    </>
+                  )
+                }
+              </div>
+            </div>
           </div>
-          <div className="row">
+
+          <div className="row fib-row">
             {
+              sprintDetail.issues && sprintDetail.issueForVoting &&
               fibNo.map((fib, i) => {
                 return (
                   <>
                     {
-                      selectedFib < 0 &&
+                      sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === loggedInUserId).length === 0 &&
                       <div className="col fib-sel-div" key={fib} onClick={() => castVote(fib)}>
-                        <span className={`fib-select-span ${fib === selectedFib ? 'fib-select-span-selected' : ''}`}>
+                        <span className={`fib-select-span`}>
                           {
                             fib
                           }
                         </span>
+                      </div>
+                    }
+                    {
+                      sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === loggedInUserId).length > 0 &&
+                      <div className="col fib-sel-div" key={fib} >
+                        {
+                          sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === loggedInUserId)[0].vote === fib &&
+                          <>
+                            <span className={`fib-select-span fib-select-span-selected`}>
+                              {
+                                fib
+                              }
+                            </span>
+                          </>
+                        }
+                        {
+                          sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === loggedInUserId)[0].vote !== fib &&
+                          <>
+                            <span className={`fib-select-span`}>
+                              {
+                                fib
+                              }
+                            </span>
+                          </>
+                        }
                       </div>
                     }
                   </>
@@ -191,24 +314,57 @@ function PlayGames() {
               })
             }
           </div>
-          <div className="row">
+
+
+          <div className="row user-row">
+
             {
-              fibNo.map((fib, i) => {
+              listOfUsers &&
+              listOfUsers.map((user) => {
                 return (
-                  <>{
-                    (selectedFib > 0) &&
-                    <div className="col fib-sel-div" key={fib} >
-                      <span className={`fib-select-span ${fib === selectedFib ? 'fib-select-span-selected' : ''}`}>
-                        {
-                          fib
-                        }
-                      </span>
+                  <div className="col-1 user-col" key={user.id}>
+                    <div className="row">
+                      <div className="col user-vote">
+                        <span>
+                          {
+                            (sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting).length > 0 &&
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes &&
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === user.id).length === 0) &&
+                            <>
+                              <img src="/sprint-game/assets/typing.gif" alt="banner" className="banner-image1" />
+                            </>
+                          }
+                          {
+                            (sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting).length > 0 &&
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes &&
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === user.id).length > 0 && 
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === loggedInUserId).length > 0) &&
+                           <span className='selected-vote'>
+                           {
+                            sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === user.id)[0].vote
+                           }
+                           </span>
+                          }
+                          {
+                            (sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting).length > 0 &&
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes &&
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === user.id).length > 0 && 
+                              sprintDetail.issues.filter(item => item.id === sprintDetail.issueForVoting)[0].votes.filter(item => item.by === loggedInUserId).length === 0) &&
+                           <>
+                           <img src="/sprint-game/assets/done.gif" alt="banner" className="banner-image1" />
+                           </>
+                          }
+                        </span>
+                      </div>
                     </div>
-                  }
-                  </>
+                    <div className="row">
+                      <div className="col">  {user.name}</div>
+                    </div>
+                  </div>
                 )
               })
             }
+
           </div>
         </div>
         <div className="col-4 border-l">
@@ -219,10 +375,33 @@ function PlayGames() {
               return (
                 <div className="row" key={issue.title}>
                   <div className="col">
-                    <div className="issue-row">
-                      {issue.title}
-                    </div>
-
+                    {
+                      issue.status === 'done' &&
+                      <div className="issue-row issue-done">
+                        {issue.title}
+                        <span className='casted-vote'>
+                          {issue.avgVote}
+                        </span>
+                      </div>
+                    }
+                    {
+                      (issue.status === 'added' && issue.id === issueForVoting.id) &&
+                      <div className="issue-row issue-wip">
+                        {issue.title}
+                      </div>
+                    }
+                    {
+                      (issue.status === 'wip') &&
+                      <div className="issue-row issue-wip">
+                        {issue.title}
+                      </div>
+                    }
+                    {
+                      (issue.status === 'added' && issue.id !== issueForVoting.id) &&
+                      <div className="issue-row issue-added">
+                        {issue.title}
+                      </div>
+                    }
                   </div>
                 </div>
               )
@@ -254,18 +433,7 @@ function PlayGames() {
           }
 
         </div>
-        <div className="col-2">
-          {
-            listOfUsers &&
-            listOfUsers.map((user) => {
-              return (
-                <div className="row" key={user.id}>
-                  {user.name}
-                </div>
-              )
-            })
-          }
-        </div>
+
 
       </div>
     </Container>

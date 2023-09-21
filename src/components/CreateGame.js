@@ -20,7 +20,8 @@ function CreateGame() {
             name: gameName,
             createdBy: loginService.getUserName(),
             createdId: loginService.getUserId(),
-            createdDate: new Date().toISOString().split('T')[0]
+            createdDate: new Date().toISOString().split('T')[0],
+            issues:[]
         }
         await sprintServices.createNewSprint(newSprint).then(res => {
             handleClose();

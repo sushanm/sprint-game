@@ -151,3 +151,67 @@
   color: white;
   background-color: #3993ff;
 }
+
+.fib-row{
+  position: relative;
+  top: 35px;
+}
+
+
+
+.blinking{
+  animation: 1s blink ease infinite;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%
+}
+
+.blinking-green {
+    animation: 1s blink-green ease infinite;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%
+}
+.issue-done{
+  background-color: lightgrey !important;
+}
+
+.issue-wip{
+  background-color: #08be08;
+  color: white;
+}
+
+.user-row{
+  position: relative;
+  top: 75px;
+}
+
+.user-vote{
+  text-align: center;
+  border-bottom: 1px solid rgb(188, 185, 185);;
+}
+
+.user-col{
+  border: 1px solid rgb(188, 185, 185);
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+.selected-vote{
+  color:#08be08;
+  font-weight: bold;
+}
+
+.casted-vote{
+  float: right;
+  background-color: #0a9246;
+  padding: 5px;
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.banner-image1{
+  width: 25px;
+}
