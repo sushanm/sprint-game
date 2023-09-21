@@ -51,7 +51,7 @@
   left: 8px;
 }
 
-.user-name{
+.user-name {
   color: #e45883;
   font-weight: bold;
   padding-right: 6px;
@@ -61,48 +61,51 @@
   display: none;
 }
 
-.login-display-row{
+.login-display-row {
   width: 400px;
 }
 
-.col-text-middle{
+.col-text-middle {
   position: relative;
   top: 5px;
   vertical-align: -webkit-baseline-middle !important;
-    vertical-align: middle !important;
-    display: inline-flex;
+  vertical-align: middle !important;
+  display: inline-flex;
 }
 
-.col-shadow{
+.col-shadow {
   background-color: #f9f9f9;
   border-radius: 12px;
-  filter: drop-shadow(0 7.9746px 23.9238px rgba(26,41,53,.16));
+  filter: drop-shadow(0 7.9746px 23.9238px rgba(26, 41, 53, .16));
   position: relative;
-  top:120px;
+  top: 120px;
   z-index: 1;
 }
 
-.banner-image{
+.banner-image {
   width: 100%;
 }
 
-.nav-item .dropdown a{
+.nav-item .dropdown a {
   padding-left: 6px !important;
 }
-.dropdown-toggle{
+
+.dropdown-toggle {
   font-size: 20px;
   position: relative;
   top: -2px;
 }
 
-.create-game-container{
+.create-game-container {
   position: relative;
-  top:45%
+  top: 45%
 }
-.create-game-title-desc{
+
+.create-game-title-desc {
   padding-top: 20px;
 }
-.create-game-title-btn{
+
+.create-game-title-btn {
   margin-top: 20px;
   width: 60%;
   align-items: center;
@@ -112,19 +115,19 @@
   opacity: 0.8 !important;
 }
 
-.widthfull{
+.widthfull {
   width: 100%;
 }
 
-.border-l{
+.border-l {
   border-left: 1px solid #18bbe5;
 }
 
-.add-new-issue{
+.add-new-issue {
   height: 70px;
 }
 
-.issue-row{
+.issue-row {
   min-height: 50px;
   background-color: #ebf4ff;
   margin-bottom: 10px;
@@ -132,12 +135,12 @@
   border-radius: 7px;
 }
 
-.fib-sel-div{
+.fib-sel-div {
   text-align: center;
- 
+
 }
 
-.fib-select-span{
+.fib-select-span {
   border: 2px solid #3993ff;
   margin: 0px !important;
   padding: 10px !important;
@@ -145,21 +148,21 @@
   border-radius: 5px;
 }
 
-.fib-select-span-selected{
+.fib-select-span-selected {
   position: relative;
   bottom: 15px;
   color: white;
   background-color: #3993ff;
 }
 
-.fib-row{
+.fib-row {
   position: relative;
   top: 35px;
 }
 
 
 
-.blinking{
+.blinking {
   animation: 1s blink ease infinite;
   width: 20px;
   height: 20px;
@@ -167,43 +170,45 @@
 }
 
 .blinking-green {
-    animation: 1s blink-green ease infinite;
+  animation: 1s blink-green ease infinite;
   width: 20px;
   height: 20px;
   border-radius: 100%
 }
-.issue-done{
+
+.issue-done {
   background-color: lightgrey !important;
 }
 
-.issue-wip{
+.issue-wip {
   background-color: #08be08;
   color: white;
 }
 
-.user-row{
+.user-row {
   position: relative;
   top: 75px;
 }
 
-.user-vote{
+.user-vote {
   text-align: center;
-  border-bottom: 1px solid rgb(188, 185, 185);;
+  border-bottom: 1px solid rgb(188, 185, 185);
+  ;
 }
 
-.user-col{
+.user-col {
   border: 1px solid rgb(188, 185, 185);
   border-radius: 5px;
   margin-right: 10px;
   font-size: 12px;
 }
 
-.selected-vote{
-  color:#08be08;
+.selected-vote {
+  color: #08be08;
   font-weight: bold;
 }
 
-.casted-vote{
+.casted-vote {
   float: right;
   background-color: #0a9246;
   padding: 5px;
@@ -212,10 +217,28 @@
   font-size: 12px;
 }
 
-.banner-image1{
+.banner-image1 {
   width: 25px;
 }
 
-.sprint-name{
+.sprint-name {
   color: #4dbce5;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .create-game-container {
+    position: relative;
+    top: 10px;
+  }
+
+  .mob-col {
+    margin: 0px auto;
+    width: 100%;
+  }
+
+  .col-shadow {
+    top: 30px;
+    margin: 0px auto;
+    width: 100%;
+  }
 }

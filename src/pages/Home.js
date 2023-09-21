@@ -4,7 +4,7 @@ const Home = () => {
     return <>
         <Container>
             <div className="row">
-                <div className="col-5">
+                <div className="col-5 mob-col">
                 <CreateGame />
                 </div>
                 <div className="col-7 col-shadow ">
