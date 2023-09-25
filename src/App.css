@@ -226,6 +226,9 @@
 }
 
 @media only screen and (max-device-width: 480px) {
+  html{
+    width: 100%;
+  }
   .create-game-container {
     position: relative;
     top: 10px;
@@ -240,5 +243,26 @@
     top: 30px;
     margin: 0px auto;
     width: 100%;
+  }
+  .modal-backdrop{
+    width: 100%;
+  }
+  .modal-content{
+    bottom: 150px;
+  }
+  .modal-content .form-control{
+    height: 58px;
+  }
+
+  .modal-content .widthfull{
+    height: 58px;
+    padding: 0px;
+
+  }
+  .user-col .col-1{
+width: fit-content;
+  }
+  .fib-sel-div{
+    display: inline-grid;
   }
 }
